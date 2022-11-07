@@ -12,7 +12,7 @@ export class HomeService {
 
   // start getHistory
   getHistory() {
-    const apiUrl = `${baseURL}/history?page=1&size=10`;
+    const apiUrl = `${baseURL}/history?page=1&size=100`;
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       Accept: "application/json",
