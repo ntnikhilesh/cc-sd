@@ -1,48 +1,111 @@
 <app-nav></app-nav>
 <div class="container">
-    <div class="row">
-      <div class="col-12 mt-2 mb-2">
-        <a class="back-btn" (click)="onBackClick()"> Back </a>
-      </div>
+  <div class="row">
+    <div class="col-12 mt-2 mb-2">
+      <a class="back-btn" (click)="onBackClick()"> Back </a>
     </div>
   </div>
+</div>
 
-  <div class="container mt-4 mb-2">
-    <div class="row ">
-      <div class="col-4 ">
-       <b>Total Legacy Contract in CSV: {{ historyDetails?.getHistoryDetailByIdResp?.agreements?.count}}</b>
-      </div>
-      <div class="col-4">
-       <b> Number of Qualified Entries: {{ historyDetails?.getHistoryDetailByIdResp?.completed_agreements_count}}</b>
-       </div>
-       <div class="col-4 ">
-       <b> Number of Error Entries: {{ historyDetails?.getHistoryDetailByIdResp?.pending_agreements_count}}</b>
-       </div>
+<div class="container mt-4 mb-2">
+  <div class="row">
+    <div class="col-4">
+      <b
+        >Total Legacy Contract in CSV:
+        {{ historyDetails?.getHistoryDetailByIdResp?.agreements?.count }}</b
+      >
+    </div>
+    <div class="col-4">
+      <b>
+        Number of Qualified Entries:
+        {{
+          historyDetails?.getHistoryDetailByIdResp?.completed_agreements_count
+        }}</b
+      >
+    </div>
+    <div class="col-4">
+      <b>
+        Number of Error Entries:
+        {{
+          historyDetails?.getHistoryDetailByIdResp?.pending_agreements_count
+        }}</b
+      >
     </div>
   </div>
+</div>
 
 <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name of Agreement</th>
-        <th scope="col">File Name</th>
-        <th scope="col">Type of Agreement</th>
-        <th scope="col">Status</th>
-        <th scope="col">Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-      *ngFor="let data of historyDetails?.getHistoryDetailByIdResp?.agreements?.rows; let index = index"
-      >
-        <th scope="row">{{index + 1}}</th>
-        <td>{{ data?.name_of_agreement }}</td>
-        <td>{{ data?.file_name }}</td>
-        <td>{{ data?.type_of_agreement }}</td>
-        <td>{{ data?.status }}</td>
-        <td (click)="onEditClick()"> Edit</td>
-      </tr>
-    </tbody>
-  </table>
-  
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name of Agreement</th>
+      <th scope="col">File Name</th>
+      <th scope="col">Type of Agreement</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let data of historyDetails?.getHistoryDetailByIdResp?.agreements?.rows;
+        let index = index
+      "
+    >
+      <th scope="row">{{ index + 1 }}</th>
+      <td>{{ data?.name_of_agreement }}</td>
+      <td>{{ data?.file_name }}</td>
+      <td>{{ data?.type_of_agreement }}</td>
+      <td>{{ data?.status }}</td>
+      <td (click)="onEditClick(data)">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-toggle="modal"
+          data-target="#editHistoryModal"
+        >
+          Edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Edit Modal -->
+<div
+  class="modal fade"
+  id="editHistoryModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="editHistoryModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editHistoryModalLabel">Edit Meta Data</h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">Coming Soon!</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          CANCEL
+        </button>
+        <button data-dismiss="modal" type="button" class="btn btn-primary" (click)="handleSubmit()">
+          SUBMIT
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

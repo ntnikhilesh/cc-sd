@@ -58,11 +58,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
   }
   /* end getAgreementById */
 
-  onEditClick() {
-    alert("Coming Soon!");
+  onEditClick(selectedAgreement) {
+    console.log("onEditClick", selectedAgreement);
+    this.historyDetails["selectedAgreement"] = selectedAgreement;
   }
 
   onBackClick() {
     this.router.navigate([""]);
+  }
+
+  handleSubmit() {
+    console.log("handleSubmit...", this.historyDetails);
   }
 }
