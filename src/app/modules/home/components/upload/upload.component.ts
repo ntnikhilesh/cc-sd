@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HomeService } from '../../home.service';
 declare var $: any;
 @Component({
@@ -8,7 +9,7 @@ declare var $: any;
 })
 export class UploadComponent implements OnInit {
   uploadDetails: any = {};
-  constructor(private homeService: HomeService) {}
+  constructor(private homeService: HomeService, private router: Router) {}
 
   ngOnInit(): void {}
 
@@ -87,7 +88,7 @@ export class UploadComponent implements OnInit {
           this.uploadDetails['uploadAgreementsResp'] = uploadAgreementsResp;
           $('#bulkUploadModal').modal('toggle');
           alert('Upload Successful!')
-          window.location.reload();
+          this.router.navigate([`upload-history-details/${uploadAgreementsResp['history']['id']}`])
           resolve(true);
         },
         (error) => {

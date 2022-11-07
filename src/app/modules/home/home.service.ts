@@ -1,11 +1,11 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-const baseURL = 'https://signdesk.herokuapp.com'
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
+const baseURL = "https://signdesk.herokuapp.com";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class HomeService {
   constructor(private httpclient: HttpClient) {}
@@ -14,20 +14,41 @@ export class HomeService {
   getHistory() {
     const apiUrl = `${baseURL}/history?page=1&size=10`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+      "Content-Type": "application/json",
+      Accept: "application/json",
     });
     return this.httpclient.get(apiUrl, { headers });
   }
   // end getHistory
 
+  // start getAgreementById
+  getAgreementById(id) {
+    const apiUrl = `${baseURL}/agreements/${id}`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+    return this.httpclient.get(apiUrl, { headers });
+  }
+  // end getAgreementById
+
+  // start getHistoryDetailById
+  getHistoryDetailById(id) {
+    const apiUrl = `${baseURL}/agreements?history_id=${id}`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+    return this.httpclient.get(apiUrl, { headers });
+  }
+  // end getHistoryDetailById
+
   // start getPresignedUrls
   getPresignedUrls(payload) {
-   // let data = ?data=${encodeURIComponent(JSON.stringify(yourBodyObject))}
     const apiUrl = `${baseURL}/agreements/presigned-urls`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+      "Content-Type": "application/json",
+      Accept: "application/json",
     });
     return this.httpclient.post(apiUrl, payload, { headers });
   }
@@ -35,7 +56,7 @@ export class HomeService {
 
   // start uploadData
   uploadData(url, imgData) {
-    console.log('uploadData::', url, imgData)
+    console.log("uploadData::", url, imgData);
     return this.httpclient.put(url, imgData).toPromise();
   }
   // end uploadData
@@ -44,8 +65,8 @@ export class HomeService {
   uploadAgreements(payload) {
     const apiUrl = `${baseURL}/agreements/upload-csv`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
+      "Content-Type": "application/json",
+      Accept: "application/json",
     });
     return this.httpclient.post(apiUrl, payload, { headers });
   }

@@ -16,6 +16,7 @@
 
 
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { HomeService } from '../../modules/home/home.service';
 @Component({
   selector: 'app-history',
@@ -24,7 +25,7 @@ import { HomeService } from '../../modules/home/home.service';
 })
 export class HistoryComponent implements OnInit {
   homeDetails: any = {};
-  constructor(private homeService: HomeService) {}
+  constructor(private homeService: HomeService, private router: Router) {}
 
   ngOnInit(): void {
     this.getHistory().then(
@@ -56,4 +57,10 @@ export class HistoryComponent implements OnInit {
     });
   }
   /* end getHistory */
+
+  onIdClick(selectedAgreement){
+    this.homeDetails['selectedAgreement'] = selectedAgreement;
+    console.log('onIdClick', this.homeDetails);
+    this.router.navigate([`upload-history-details/${selectedAgreement}`])
+  }
 }
