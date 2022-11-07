@@ -1,0 +1,53 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+const baseURL = 'https://signdesk.herokuapp.com'
+
+@Injectable({
+  providedIn: 'root',
+})
+export class HomeService {
+  constructor(private httpclient: HttpClient) {}
+
+  // start getHistory
+  getHistory() {
+    const apiUrl = `${baseURL}/history?page=1&size=10`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.httpclient.get(apiUrl, { headers });
+  }
+  // end getHistory
+
+  // start getPresignedUrls
+  getPresignedUrls(payload) {
+   // let data = ?data=${encodeURIComponent(JSON.stringify(yourBodyObject))}
+    const apiUrl = `${baseURL}/agreements/presigned-urls`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.httpclient.post(apiUrl, payload, { headers });
+  }
+  // end getPresignedUrls
+
+  // start uploadData
+  uploadData(url, imgData) {
+    console.log('uploadData::', url, imgData)
+    return this.httpclient.put(url, imgData).toPromise();
+  }
+  // end uploadData
+
+  // start uploadAgreements
+  uploadAgreements(payload) {
+    const apiUrl = `${baseURL}/agreements/upload-csv`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    });
+    return this.httpclient.post(apiUrl, payload, { headers });
+  }
+  // end uploadAgreements
+}
