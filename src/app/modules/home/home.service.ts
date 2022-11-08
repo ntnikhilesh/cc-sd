@@ -54,6 +54,17 @@ export class HomeService {
   }
   // end getPresignedUrls
 
+  // start updateMetaDeta
+  updateMetaDeta(id, payload) {
+    const apiUrl = `${baseURL}/agreements/${id}`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+    return this.httpclient.put(apiUrl, payload, { headers });
+  }
+  // end updateMetaDeta
+
   // start uploadData
   uploadData(url, imgData) {
     console.log("uploadData::", url, imgData);

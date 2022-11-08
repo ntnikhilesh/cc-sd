@@ -59,7 +59,7 @@ export class UploadHistoryDetailsComponent implements OnInit {
   /* end getAgreementById */
 
   onEditClick(selectedAgreement) {
-    console.log("onEditClick", selectedAgreement);
+    console.log("onEditClick", this.historyDetails);
     this.historyDetails["selectedAgreement"] = selectedAgreement;
   }
 
@@ -69,5 +69,44 @@ export class UploadHistoryDetailsComponent implements OnInit {
 
   handleSubmit() {
     console.log("handleSubmit...", this.historyDetails);
+    this.updateMetaDeta().then(
+      (res) => {
+        if (res) {
+          console.log("updateMetaDeta done....", this.historyDetails);
+        }
+      },
+      (error) => {
+        console.log("updateMetaDeta error....", error);
+      }
+    );
   }
+
+  /* start updateMetaDeta */
+  updateMetaDeta(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      const {dynamic_metadata,name_of_agreement, file_name } = this.historyDetails["selectedAgreement"];
+      let payload = {
+        dynamic_metadata,
+        name_of_agreement,
+        file_name
+    }
+      this.homeService
+        .updateMetaDeta(this.historyDetails["selectedAgreement"]['id'], payload)
+        .subscribe(
+          (updateMetaDetaResp) => {
+            console.log("updateMetaDetaResp:", updateMetaDetaResp);
+            this.historyDetails["updateMetaDetaResp"] =
+            updateMetaDetaResp;
+            alert("Update successful!");
+            resolve(true);
+          },
+          (error) => {
+            console.log("updateMetaDetaResp error...", error);
+            alert("Error while updating meta data.");
+            reject();
+          }
+        );
+    });
+  }
+  /* end updateMetaDeta */
 }
