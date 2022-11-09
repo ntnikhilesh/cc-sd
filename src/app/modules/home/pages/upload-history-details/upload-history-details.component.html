@@ -95,18 +95,18 @@
       </div>
       <div
         class="modal-body"
-        *ngIf="historyDetails?.getAgreementByIdResp?.csv_fields?.length"
+        *ngIf="historyDetails?.updated_predefined_metadata_fields?.length"
       >
         <form #editMetaDataForm="ngForm">
           <div
             class="row mb-2"
             *ngFor="
-              let metaDetail of historyDetails.getAgreementByIdResp.csv_fields; let index = index"
+              let metaDetail of historyDetails.updated_predefined_metadata_fields; let index = index"
           >
-            <div class="col-6">{{ metaDetail.label }}:</div>
+            <div class="col-6">{{ metaDetail?.label }}:</div>
             <div class="col-6">
               <input
-                [(ngModel)]="metaDetail.selected_value"
+                [(ngModel)]="metaDetail.value"
                 name="{{index}}"
                 required
                 type="text"

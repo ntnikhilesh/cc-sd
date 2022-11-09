@@ -94,20 +94,21 @@ export class UploadHistoryDetailsComponent implements OnInit {
   /* start updateMetaDeta */
   updateMetaDeta(): Promise<any> {
     return new Promise((resolve, reject) => {
-      const {csv_fields,name_of_agreement, file_name } = this.historyDetails["getAgreementByIdResp"];
-      let payload = {
-        csv_fields,
-        name_of_agreement,
-        file_name
-    }
+      let payload = {};
+      this.historyDetails["updated_predefined_metadata_fields"].forEach(
+        (element) => {
+          payload[element?.uid] = element?.value ?? null;
+        }
+      );
+      console.log("final updateMetaDeta payload: ", payload);
       this.homeService
-        .updateMetaDeta(this.historyDetails["selectedAgreement"]['id'], payload)
+        .updateMetaDeta(this.historyDetails["selectedAgreement"]["id"], payload)
         .subscribe(
           (updateMetaDetaResp) => {
             console.log("updateMetaDetaResp:", updateMetaDetaResp);
-            this.historyDetails["updateMetaDetaResp"] =
-            updateMetaDetaResp;
+            this.historyDetails["updateMetaDetaResp"] = updateMetaDetaResp;
             alert("Update successful!");
+            window.location.reload();
             resolve(true);
           },
           (error) => {
@@ -124,12 +125,26 @@ export class UploadHistoryDetailsComponent implements OnInit {
   getAgreementById(): Promise<any> {
     return new Promise((resolve, reject) => {
       this.homeService
-        .getAgreementById(this.historyDetails["selectedAgreement"]['id'])
+        .getAgreementById(this.historyDetails["selectedAgreement"]["id"])
         .subscribe(
           (getAgreementByIdResp) => {
             console.log("getAgreementByIdResp:", getAgreementByIdResp);
-            this.historyDetails["getAgreementByIdResp"] =
-            getAgreementByIdResp;
+            this.historyDetails["getAgreementByIdResp"] = getAgreementByIdResp;
+            this.historyDetails["updated_predefined_metadata_fields"] = [];
+
+            this.historyDetails["getAgreementByIdResp"][
+              "predefined_metadata_fields"
+            ].forEach((element) => {
+              let obj = {};
+              obj["uid"] = element;
+              obj["value"] =
+                this.historyDetails["getAgreementByIdResp"][element];
+              obj["label"] = element;
+              this.historyDetails["updated_predefined_metadata_fields"].push(
+                obj
+              );
+            });
+
             resolve(true);
           },
           (error) => {
