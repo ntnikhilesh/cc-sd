@@ -56,11 +56,21 @@ export class UploadHistoryDetailsComponent implements OnInit {
         );
     });
   }
-  /* end getAgreementById */
+  /* end getHistoryDetailById */
 
   onEditClick(selectedAgreement) {
     console.log("onEditClick", this.historyDetails);
     this.historyDetails["selectedAgreement"] = selectedAgreement;
+    this.getAgreementById().then(
+      (res) => {
+        if (res) {
+          console.log("getAgreementById done....", this.historyDetails);
+        }
+      },
+      (error) => {
+        console.log("getAgreementById error....", error);
+      }
+    );
   }
 
   onBackClick() {
@@ -84,9 +94,9 @@ export class UploadHistoryDetailsComponent implements OnInit {
   /* start updateMetaDeta */
   updateMetaDeta(): Promise<any> {
     return new Promise((resolve, reject) => {
-      const {dynamic_metadata,name_of_agreement, file_name } = this.historyDetails["selectedAgreement"];
+      const {csv_fields,name_of_agreement, file_name } = this.historyDetails["getAgreementByIdResp"];
       let payload = {
-        dynamic_metadata,
+        csv_fields,
         name_of_agreement,
         file_name
     }
@@ -109,4 +119,26 @@ export class UploadHistoryDetailsComponent implements OnInit {
     });
   }
   /* end updateMetaDeta */
+
+  /* start getHistoryDetailById */
+  getAgreementById(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.homeService
+        .getAgreementById(this.historyDetails["selectedAgreement"]['id'])
+        .subscribe(
+          (getAgreementByIdResp) => {
+            console.log("getAgreementByIdResp:", getAgreementByIdResp);
+            this.historyDetails["getAgreementByIdResp"] =
+            getAgreementByIdResp;
+            resolve(true);
+          },
+          (error) => {
+            console.log("getHistoryDetailByIdResp error...", error);
+            alert("Error while getting agreement details.");
+            reject();
+          }
+        );
+    });
+  }
+  /* end getAgreementById */
 }

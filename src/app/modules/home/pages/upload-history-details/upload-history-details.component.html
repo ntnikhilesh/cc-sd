@@ -95,22 +95,19 @@
       </div>
       <div
         class="modal-body"
-        *ngIf="historyDetails?.selectedAgreement?.dynamic_metadata?.length"
+        *ngIf="historyDetails?.getAgreementByIdResp?.csv_fields?.length"
       >
         <form #editMetaDataForm="ngForm">
           <div
-            class="row"
+            class="row mb-2"
             *ngFor="
-              let metaDetail of historyDetails.selectedAgreement
-                .dynamic_metadata
-            "
+              let metaDetail of historyDetails.getAgreementByIdResp.csv_fields; let index = index"
           >
-            <div class="col-3">{{ metaDetail.name }}:</div>
-            <div class="col-9">
+            <div class="col-6">{{ metaDetail.label }}:</div>
+            <div class="col-6">
               <input
-                [(ngModel)]="metaDetail.value"
-                name="metaDetail.name"
-                placeholder="metaDetail.name"
+                [(ngModel)]="metaDetail.selected_value"
+                name="{{index}}"
                 required
                 type="text"
               />
