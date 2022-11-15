@@ -181,4 +181,45 @@ export class UploadHistoryDetailsComponent implements OnInit {
     });
   }
   /* end saveHistoryById */
+
+  // start onDeleteClick
+  onDeleteClick(selectedAgreement) {
+    console.log("onDeleteClick", this.historyDetails);
+    this.historyDetails["selectedAgreement"] = selectedAgreement;
+    this.deleteAgreementById().then(
+      (res) => {
+        if (res) {
+          console.log("deleteAgreementById done....", this.historyDetails);
+        }
+      },
+      (error) => {
+        console.log("deleteAgreementById error....", error);
+      }
+    );
+  }
+  // end onDeleteClick
+
+  /* start deleteAgreementById */
+  deleteAgreementById(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.homeService
+        .deleteAgreementById(this.historyDetails["selectedAgreement"]["id"])
+        .subscribe(
+          (deleteAgreementByIdResp) => {
+            console.log("deleteAgreementByIdResp:", deleteAgreementByIdResp);
+            this.historyDetails["deleteAgreementByIdResp"] =
+              deleteAgreementByIdResp;
+            alert("Delete successful!");
+            window.location.reload();
+            resolve(true);
+          },
+          (error) => {
+            console.log("deleteAgreementById error...", error);
+            alert("Error while deleting agreement.");
+            reject();
+          }
+        );
+    });
+  }
+  /* end deleteAgreementById */
 }

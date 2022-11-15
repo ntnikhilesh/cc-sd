@@ -32,6 +32,17 @@ export class HomeService {
   }
   // end getAgreementById
 
+  // start deleteAgreementById
+  deleteAgreementById(id) {
+    const apiUrl = `${baseURL}/agreements/${id}`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+    return this.httpclient.delete(apiUrl, { headers });
+  }
+  // end deleteAgreementById
+
   // start saveHistoryById
   saveHistoryById(id) {
     const apiUrl = `${baseURL}/history/${id}/save`;
