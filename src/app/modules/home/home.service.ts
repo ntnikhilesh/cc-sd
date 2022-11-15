@@ -32,6 +32,17 @@ export class HomeService {
   }
   // end getAgreementById
 
+  // start saveHistoryById
+  saveHistoryById(id) {
+    const apiUrl = `${baseURL}/history/${id}/save`;
+    const headers = new HttpHeaders({
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    });
+    return this.httpclient.put(apiUrl, {}, { headers });
+  }
+  // end saveHistoryById
+
   // start getHistoryDetailById
   getHistoryDetailById(id) {
     const apiUrl = `${baseURL}/agreements?history_id=${id}`;

@@ -9,13 +9,22 @@
 
 <div class="container mt-4 mb-2">
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 mb-2">
+      <b
+        >Name of CSV:
+        {{
+          historyDetails?.getHistoryDetailByIdResp?.csv_file_name ||
+            historyDetails?.historyId
+        }}</b
+      >
+    </div>
+    <div class="col-3">
       <b
         >Total Legacy Contract in CSV:
         {{ historyDetails?.getHistoryDetailByIdResp?.agreements?.count }}</b
       >
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <b>
         Number of Qualified Entries:
         {{
@@ -23,13 +32,22 @@
         }}</b
       >
     </div>
-    <div class="col-4">
+    <div class="col-3">
       <b>
         Number of Error Entries:
         {{
           historyDetails?.getHistoryDetailByIdResp?.pending_agreements_count
         }}</b
       >
+    </div>
+    <div class="col-3">
+      <button
+        type="button"
+        class="btn btn-primary"
+        (click)="handleSaveSubmit()"
+      >
+        Save & Submit
+      </button>
     </div>
   </div>
 </div>

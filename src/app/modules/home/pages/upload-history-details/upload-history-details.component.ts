@@ -96,9 +96,9 @@ export class UploadHistoryDetailsComponent implements OnInit {
   updateMetaDeta(): Promise<any> {
     return new Promise((resolve, reject) => {
       let payload = {};
-      const { dynamic_metadata , predefined_metadata_fields
-      } = this.historyDetails['getAgreementByIdResp'];
-      payload = {dynamic_metadata, predefined_metadata_fields};
+      const { dynamic_metadata, predefined_metadata_fields } =
+        this.historyDetails["getAgreementByIdResp"];
+      payload = { dynamic_metadata, predefined_metadata_fields };
       console.log("final updateMetaDeta payload: ", payload);
       this.homeService
         .updateMetaDeta(this.historyDetails["selectedAgreement"]["id"], payload)
@@ -141,4 +141,44 @@ export class UploadHistoryDetailsComponent implements OnInit {
     });
   }
   /* end getAgreementById */
+
+  // start handleSaveSubmit
+  handleSaveSubmit() {
+    console.log("handleSaveSubmit", this.historyDetails);
+    this.saveHistoryById().then(
+      (res) => {
+        if (res) {
+          console.log("saveHistoryById done....", this.historyDetails);
+        }
+      },
+      (error) => {
+        console.log("saveHistoryById error....", error);
+      }
+    );
+  }
+
+  // end handleSaveSubmit
+
+  /* start saveHistoryById */
+  saveHistoryById(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.homeService
+        .saveHistoryById(this.historyDetails["historyId"])
+        .subscribe(
+          (saveHistoryByIdResp) => {
+            console.log("saveHistoryByIdResp:", saveHistoryByIdResp);
+            this.historyDetails["saveHistoryByIdResp"] = saveHistoryByIdResp;
+            alert("Save successful!");
+            window.location.reload();
+            resolve(true);
+          },
+          (error) => {
+            console.log("saveHistoryByIdResp error...", error);
+            alert("Error while saveing history.");
+            reject();
+          }
+        );
+    });
+  }
+  /* end saveHistoryById */
 }
