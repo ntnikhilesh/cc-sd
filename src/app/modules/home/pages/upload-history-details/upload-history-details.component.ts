@@ -61,6 +61,7 @@ export class UploadHistoryDetailsComponent implements OnInit {
   onEditClick(selectedAgreement) {
     console.log("onEditClick", this.historyDetails);
     this.historyDetails["selectedAgreement"] = selectedAgreement;
+    this.historyDetails["getAgreementByIdResp"] = {};
     this.getAgreementById().then(
       (res) => {
         if (res) {
@@ -95,11 +96,9 @@ export class UploadHistoryDetailsComponent implements OnInit {
   updateMetaDeta(): Promise<any> {
     return new Promise((resolve, reject) => {
       let payload = {};
-      this.historyDetails["updated_predefined_metadata_fields"].forEach(
-        (element) => {
-          payload[element?.uid] = element?.value ?? null;
-        }
-      );
+      const { dynamic_metadata , predefined_metadata_fields
+      } = this.historyDetails['getAgreementByIdResp'];
+      payload = {dynamic_metadata, predefined_metadata_fields};
       console.log("final updateMetaDeta payload: ", payload);
       this.homeService
         .updateMetaDeta(this.historyDetails["selectedAgreement"]["id"], payload)
@@ -130,20 +129,6 @@ export class UploadHistoryDetailsComponent implements OnInit {
           (getAgreementByIdResp) => {
             console.log("getAgreementByIdResp:", getAgreementByIdResp);
             this.historyDetails["getAgreementByIdResp"] = getAgreementByIdResp;
-            this.historyDetails["updated_predefined_metadata_fields"] = [];
-
-            this.historyDetails["getAgreementByIdResp"][
-              "predefined_metadata_fields"
-            ].forEach((element) => {
-              let obj = {};
-              obj["uid"] = element;
-              obj["value"] =
-                this.historyDetails["getAgreementByIdResp"][element];
-              obj["label"] = element;
-              this.historyDetails["updated_predefined_metadata_fields"].push(
-                obj
-              );
-            });
 
             resolve(true);
           },

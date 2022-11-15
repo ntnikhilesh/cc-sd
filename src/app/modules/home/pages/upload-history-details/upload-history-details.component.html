@@ -83,7 +83,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editHistoryModalLabel">Edit Meta Data ({{historyDetails?.selectedAgreement?.name_of_agreement}})</h5>
+        <h5 class="modal-title" id="editHistoryModalLabel">
+          Edit Meta Data ({{
+            historyDetails?.selectedAgreement?.name_of_agreement
+          }})
+        </h5>
         <button
           type="button"
           class="close"
@@ -93,26 +97,61 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div
-        class="modal-body"
-        *ngIf="historyDetails?.updated_predefined_metadata_fields?.length"
-      >
+      <div class="modal-body">
         <form #editMetaDataForm="ngForm">
+          <!-- start dynamic_metadata -->
           <div
-            class="row mb-2"
-            *ngFor="
-              let metaDetail of historyDetails.updated_predefined_metadata_fields; let index = index"
+            *ngIf="
+              historyDetails?.getAgreementByIdResp?.dynamic_metadata?.length
+            "
           >
-            <div class="col-6">{{ metaDetail?.label }}:</div>
-            <div class="col-6">
-              <input
-                [(ngModel)]="metaDetail.value"
-                name="{{index}}"
-                required
-                type="text"
-              />
+            <div
+              class="row mb-2"
+              *ngFor="
+                let metaDetail of historyDetails.getAgreementByIdResp
+                  .dynamic_metadata;
+                let index = index
+              "
+            >
+              <div class="col-6">{{ metaDetail?.label }}:</div>
+              <div class="col-6">
+                <input
+                  [(ngModel)]="metaDetail.selected_value"
+                  name="{{ metaDetail.name }}"
+                  required
+                  type="text"
+                />
+              </div>
             </div>
           </div>
+          <!-- end dynamic_metadata -->
+          <!-- start predefined_metadata_fields -->
+          <div
+            *ngIf="
+              historyDetails?.getAgreementByIdResp?.predefined_metadata_fields
+                ?.length
+            "
+          >
+            <div
+              class="row mb-2"
+              *ngFor="
+                let metaDetail of historyDetails.getAgreementByIdResp
+                  .predefined_metadata_fields;
+                let index = index
+              "
+            >
+              <div class="col-6">{{ metaDetail?.label }}:</div>
+              <div class="col-6">
+                <input
+                  [(ngModel)]="metaDetail.selected_value"
+                  name="{{ metaDetail.name }}"
+                  required
+                  type="text"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- end predefined_metadata_fields -->
         </form>
       </div>
       <div class="modal-footer">
