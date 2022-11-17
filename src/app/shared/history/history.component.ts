@@ -1,23 +1,8 @@
-// import { Component, OnInit } from '@angular/core';
-
-// @Component({
-//   selector: 'app-history',
-//   templateUrl: './history.component.html',
-//   styleUrls: ['./history.component.scss']
-// })
-// export class HistoryComponent implements OnInit {
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-//   }
-
-// }
-
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../../modules/home/home.service';
+import { LoaderService } from '../../modules/loader/loader.service'
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
@@ -25,16 +10,19 @@ import { HomeService } from '../../modules/home/home.service';
 })
 export class HistoryComponent implements OnInit {
   homeDetails: any = {};
-  constructor(private homeService: HomeService, private router: Router) {}
+  constructor(private homeService: HomeService, private router: Router, private loaderService: LoaderService) {}
 
   ngOnInit(): void {
+    this.loaderService.show();
     this.getHistory().then(
       (res) => {
         if (res) {
+          this.loaderService.hide();
           console.log('getHistory done....', this.homeDetails);
         }
       },
       (error) => {
+        this.loaderService.hide();
         console.log('getHistory error....', error);
       }
     );

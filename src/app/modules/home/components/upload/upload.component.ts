@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HomeService } from '../../home.service';
+import { LoaderService } from '../../../loader/loader.service'
 declare var $: any;
 @Component({
   selector: 'app-upload',
@@ -9,7 +10,7 @@ declare var $: any;
 })
 export class UploadComponent implements OnInit {
   uploadDetails: any = {};
-  constructor(private homeService: HomeService, private router: Router) {}
+  constructor(private homeService: HomeService, private router: Router, private loaderService: LoaderService) {}
 
   ngOnInit(): void {}
 
@@ -36,6 +37,8 @@ export class UploadComponent implements OnInit {
   }
 
   handleUpload() {
+    $('.modal-backdrop').remove();
+    $('#bulkUploadModal').modal('toggle');
     const promiseList = [];
     let payload = {
       file_names: [],
@@ -43,6 +46,7 @@ export class UploadComponent implements OnInit {
     this.uploadDetails.fileNames.forEach((element) => {
       payload.file_names.push(element.file_name);
     });
+    this.loaderService.show();
     this.homeService.getPresignedUrls(payload).subscribe(
       (getPresignedUrlsResp) => {
         this.uploadDetails['getPresignedUrlsResp'] = getPresignedUrlsResp;
@@ -63,13 +67,13 @@ export class UploadComponent implements OnInit {
             this.uploadAgreements();
           })
           .catch(() => {
-            $('#bulkUploadModal').modal('toggle');
+            this.loaderService.hide();
             alert('Error while processing your request. Please try later.');
             console.log('Error while uploadData...');
           });
       },
       (error) => {
-        $('#bulkUploadModal').modal('toggle');
+        this.loaderService.hide();
         alert(
           error?.error?.message ||
             'Error while processing your request. Please try later.'
@@ -86,14 +90,14 @@ export class UploadComponent implements OnInit {
       this.homeService.uploadAgreements(payload).subscribe(
         (uploadAgreementsResp) => {
           this.uploadDetails['uploadAgreementsResp'] = uploadAgreementsResp;
-          $('#bulkUploadModal').modal('toggle');
           alert('Upload Successful!')
           this.router.navigate([`upload-history-details/${uploadAgreementsResp['history']['id']}`])
+          this.loaderService.hide();
           resolve(true);
         },
         (error) => {
+          this.loaderService.hide();
           console.log('uploadAgreementsResp error...', error);
-          $('#bulkUploadModal').modal('toggle');
           alert(
             error?.error?.message ||
               'Error while processing your request. Please try later.'

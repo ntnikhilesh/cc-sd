@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HomeService } from "../../home.service";
+import { LoaderService } from '../../../loader/loader.service'
 declare var $: any;
 @Component({
   selector: "app-upload-history-details",
@@ -12,7 +13,8 @@ export class UploadHistoryDetailsComponent implements OnInit {
   constructor(
     private homeService: HomeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private loaderService: LoaderService,
   ) {}
 
   ngOnInit(): void {
@@ -20,13 +22,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
       console.log(" subscribe param... ", this.historyDetails);
       this.historyDetails["historyId"] = params["id"];
       if (this.historyDetails["historyId"]) {
+        this.loaderService.show();
         this.getHistoryDetailById().then(
           (res) => {
             if (res) {
+              this.loaderService.hide();
               console.log("getHistoryDetailById done....", this.historyDetails);
             }
           },
           (error) => {
+            this.loaderService.hide();
             console.log("getHistoryDetailById error....", error);
           }
         );
@@ -63,13 +68,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
     console.log("onEditClick", this.historyDetails);
     this.historyDetails["selectedAgreement"] = selectedAgreement;
     this.historyDetails["getAgreementByIdResp"] = {};
+    this.loaderService.show();
     this.getAgreementById().then(
       (res) => {
         if (res) {
+          this.loaderService.hide();
           console.log("getAgreementById done....", this.historyDetails);
         }
       },
       (error) => {
+        this.loaderService.hide();
         console.log("getAgreementById error....", error);
       }
     );
@@ -81,13 +89,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
 
   handleSubmit() {
     console.log("handleSubmit...", this.historyDetails);
+    this.loaderService.show();
     this.updateMetaDeta().then(
       (res) => {
         if (res) {
+          this.loaderService.hide();
           console.log("updateMetaDeta done....", this.historyDetails);
         }
       },
       (error) => {
+        this.loaderService.hide();
         console.log("updateMetaDeta error....", error);
       }
     );
@@ -146,13 +157,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
   // start handleSaveSubmit
   handleSaveSubmit() {
     console.log("handleSaveSubmit", this.historyDetails);
+    this.loaderService.show();
     this.saveHistoryById().then(
       (res) => {
         if (res) {
+          this.loaderService.hide();
           console.log("saveHistoryById done....", this.historyDetails);
         }
       },
       (error) => {
+        this.loaderService.hide();
         console.log("saveHistoryById error....", error);
       }
     );
@@ -187,13 +201,16 @@ export class UploadHistoryDetailsComponent implements OnInit {
   onDeleteClick(selectedAgreement) {
     console.log("onDeleteClick", this.historyDetails);
     this.historyDetails["selectedAgreement"] = selectedAgreement;
+    this.loaderService.show();
     this.deleteAgreementById().then(
       (res) => {
         if (res) {
+          this.loaderService.hide();
           console.log("deleteAgreementById done....", this.historyDetails);
         }
       },
       (error) => {
+        this.loaderService.show();
         console.log("deleteAgreementById error....", error);
       }
     );
@@ -258,6 +275,8 @@ export class UploadHistoryDetailsComponent implements OnInit {
 
   // start handleReplace
   handleReplace() {
+    $('.modal-backdrop').remove();
+    $("#replaceFileModal").modal("toggle");
     const promiseList = [];
     let payload = {
       file_names: [],
@@ -265,6 +284,7 @@ export class UploadHistoryDetailsComponent implements OnInit {
     this.historyDetails.fileNames.forEach((element) => {
       payload.file_names.push(element.file_name);
     });
+    this.loaderService.show();
     this.homeService.getPresignedUrls(payload).subscribe(
       (getPresignedUrlsResp) => {
         this.historyDetails["getPresignedUrlsResp"] = getPresignedUrlsResp;
@@ -285,13 +305,14 @@ export class UploadHistoryDetailsComponent implements OnInit {
             this.uploadAgreements();
           })
           .catch(() => {
-            $("#replaceFileModal").modal("toggle");
+            this.loaderService.hide();
+    
             alert("Error while processing your request. Please try later.");
             console.log("Error while uploadData...");
           });
       },
       (error) => {
-        $("#replaceFileModal").modal("toggle");
+        this.loaderService.hide();
         alert(
           error?.error?.message ||
             "Error while processing your request. Please try later."
@@ -317,14 +338,14 @@ export class UploadHistoryDetailsComponent implements OnInit {
         .subscribe(
           (replaceAgreementResp) => {
             this.historyDetails["replaceAgreementResp"] = replaceAgreementResp;
-            $("#replaceFileModal").modal("toggle");
             alert("Replace Successful!");
             window.location.reload();
+            this.loaderService.hide();
             resolve(true);
           },
           (error) => {
+            this.loaderService.hide();
             console.log("uploadAgreementsResp error...", error);
-            $("#replaceFileModal").modal("toggle");
             alert(
               error?.error?.message ||
                 "Error while processing your request. Please try later."
