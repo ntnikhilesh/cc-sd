@@ -104,4 +104,15 @@ export class HomeService {
     return this.httpclient.post(apiUrl, payload, { headers });
   }
   // end uploadAgreements
+
+    // start replaceAgreement
+    replaceAgreement(id, payload) {
+      const apiUrl = `${baseURL}/agreements/${id}/file`;
+      const headers = new HttpHeaders({
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      });
+      return this.httpclient.put(apiUrl, payload, { headers });
+    }
+    // end replaceAgreement
 }
