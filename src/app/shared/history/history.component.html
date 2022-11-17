@@ -16,7 +16,7 @@
       <td (click)="onIdClick(data.id)">{{ data?.csv_file_name }}</td>
       <td>{{ data?.updatedAt| date }}</td>
       <td> {{data?.uploaded_by || '--'}}</td>
-      <td>{{ data?.status }}</td>
+      <td>{{ data?.status }} | {{ data?.completed_agreements_count }} / {{ data?.completed_agreements_count + data?.pending_agreements_count }} </td>
     </tr>
   </tbody>
 </table>
