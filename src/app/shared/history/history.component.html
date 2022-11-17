@@ -1,3 +1,40 @@
+<div class="row label-row">
+  <div class="col-6">
+    <span class="mr-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-backspace-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"
+        />
+      </svg>
+    </span>
+    Upload History
+  </div>
+  <div class="col-6 sd-filter">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-toggle="dropdown"
+        aria-haspopup="true"
+        aria-expanded="false"
+      >
+        Filter
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" href="#">Last 7 days</a>
+        <a class="dropdown-item" href="#">Last 1 monts</a>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="example-container mat-elevation-z8">
   <mat-table [dataSource]="dataSource" matSort>
     <!-- ID Column -->
@@ -47,10 +84,14 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row
+      class="sd-th"
+      *matHeaderRowDef="displayedColumns"
+    ></mat-header-row>
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
       (click)="onIdClick(row)"
+      class="sd-tr"
     >
     </mat-row>
   </mat-table>

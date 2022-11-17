@@ -2,3 +2,22 @@ table {
     width: 100%;
   }
   
+  .sd-tr{
+    height: 80px;
+  }
+
+  .sd-th{
+    background: #dee2e680;
+  }
+
+  .label-row{
+    margin: 15px 15px 15px 0px;
+    font-size: 20px;
+  }
+
+  .sd-filter{
+    button{
+        float: right;
+    }
+    
+  }
