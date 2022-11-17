@@ -1,0 +1,83 @@
+table {
+    width: 100%;
+  }
+  
+  .sd-tr{
+    height: 80px;
+  }
+
+  .sd-th{
+    background: #dee2e680;
+  }
+
+  .label-row{
+    margin: 15px 15px 15px 0px;
+    font-size: 20px;
+  }
+
+  .sd-filter{
+    button{
+        float: right;
+    }
+    
+  }
+
+.modal-dialog{
+    .modal-title{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .close{
+        font-size: 43px;
+    }
+
+    .upload-lebel-row{
+        padding: 30px;
+        border: dotted;
+        margin: 0px 20px;
+        text-align: center;
+        .btn-info{
+            font-size: 14px;
+            background: #fff;
+            color: #000;
+            border: #fff;
+        }
+    }
+
+    .footer-row{
+        width: 100%;
+        .add-btn{
+            float: right;
+        }
+    }
+
+    .file-name-row{
+        border: 1px solid rgb(0 0 0 / 87%);
+        .file-name{
+            font-size: 10px;
+            text-align: left;
+            padding: 5px;
+            border-bottom: 1px solid #6c757d;
+        }
+    }
+   
+}
+
+
+.top-label-row{
+    padding-bottom: 20px;
+    .top-label{
+    padding: 10px;
+    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+        
+    }
+    .submit-btn{
+        float: right;
+    }
+   
+}
+
+.edit-input-filed{
+    font-size: 10px;
+    width: 80%;
+}

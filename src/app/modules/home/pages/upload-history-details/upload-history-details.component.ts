@@ -1,21 +1,44 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
-import { HomeService } from "../../home.service";
-import { LoaderService } from '../../../loader/loader.service'
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
+import { MatSort } from "@angular/material/sort";
+import { Router, ActivatedRoute } from "@angular/router";
+import { HomeService } from "../../../home/home.service";
+import { LoaderService } from "../../../loader/loader.service";
 declare var $: any;
+
 @Component({
   selector: "app-upload-history-details",
   templateUrl: "./upload-history-details.component.html",
   styleUrls: ["./upload-history-details.component.scss"],
 })
 export class UploadHistoryDetailsComponent implements OnInit {
-  historyDetails: any = {};
+  displayedColumns = [
+    "position",
+    "name_of_agreement",
+    "file_name",
+    "type_of_agreement",
+    "status",
+    "action",
+  ];
+  dataSource: MatTableDataSource<UserData>;
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  users: UserData[] = [];
+
+  // start
+  homeDetails: any = {};
   constructor(
     private homeService: HomeService,
-    private activatedRoute: ActivatedRoute,
     private router: Router,
     private loaderService: LoaderService,
+    private activatedRoute: ActivatedRoute
   ) {}
+  // }
+
+  // start old
+  historyDetails: any = {};
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((params) => {
@@ -52,6 +75,28 @@ export class UploadHistoryDetailsComponent implements OnInit {
             console.log("getHistoryDetailByIdResp:", getHistoryDetailByIdResp);
             this.historyDetails["getHistoryDetailByIdResp"] =
               getHistoryDetailByIdResp;
+            for (
+              let i = 0;
+              i <
+              this.historyDetails["getHistoryDetailByIdResp"]["agreements"][
+                "rows"
+              ].length;
+              i++
+            ) {
+              this.users.push(
+                this.createHistory(
+                  i,
+                  this.historyDetails["getHistoryDetailByIdResp"]["agreements"][
+                    "rows"
+                  ][i]
+                )
+              );
+            }
+            // Assign the data to the data source for the table to render
+            this.dataSource = new MatTableDataSource(this.users);
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+            console.log("final users", this.users);
             resolve(true);
           },
           (error) => {
@@ -65,8 +110,11 @@ export class UploadHistoryDetailsComponent implements OnInit {
   /* end getHistoryDetailById */
 
   onEditClick(selectedAgreement) {
-    console.log("onEditClick", this.historyDetails);
-    this.historyDetails["selectedAgreement"] = selectedAgreement;
+    console.log(selectedAgreement, "onEditClick", this.historyDetails);
+    this.historyDetails["selectedAgreement"] =
+      this.historyDetails["getHistoryDetailByIdResp"]["agreements"]["rows"][
+        selectedAgreement - 1
+      ];
     this.historyDetails["getAgreementByIdResp"] = {};
     this.loaderService.show();
     this.getAgreementById().then(
@@ -200,7 +248,10 @@ export class UploadHistoryDetailsComponent implements OnInit {
   // start onDeleteClick
   onDeleteClick(selectedAgreement) {
     console.log("onDeleteClick", this.historyDetails);
-    this.historyDetails["selectedAgreement"] = selectedAgreement;
+    this.historyDetails["selectedAgreement"] =
+      this.historyDetails["getHistoryDetailByIdResp"]["agreements"]["rows"][
+        selectedAgreement - 1
+      ];
     this.loaderService.show();
     this.deleteAgreementById().then(
       (res) => {
@@ -243,8 +294,11 @@ export class UploadHistoryDetailsComponent implements OnInit {
 
   // start onReplaceClick
   onReplaceClick(selectedAgreement) {
-    console.log("onReplaceClick", this.historyDetails);
-    this.historyDetails["selectedAgreement"] = selectedAgreement;
+    console.log(selectedAgreement, "onReplaceClick", this.historyDetails);
+    this.historyDetails["selectedAgreement"] =
+      this.historyDetails["getHistoryDetailByIdResp"]["agreements"]["rows"][
+        selectedAgreement - 1
+      ];
   }
   // end onReplaceClick
 
@@ -275,7 +329,7 @@ export class UploadHistoryDetailsComponent implements OnInit {
 
   // start handleReplace
   handleReplace() {
-    $('.modal-backdrop').remove();
+    $(".modal-backdrop").remove();
     $("#replaceFileModal").modal("toggle");
     const promiseList = [];
     let payload = {
@@ -306,7 +360,7 @@ export class UploadHistoryDetailsComponent implements OnInit {
           })
           .catch(() => {
             this.loaderService.hide();
-    
+
             alert("Error while processing your request. Please try later.");
             console.log("Error while uploadData...");
           });
@@ -355,5 +409,50 @@ export class UploadHistoryDetailsComponent implements OnInit {
         );
     });
   }
-  /* end uploadAgreements */
+
+  onIdClick(selectedAgreement) {
+    this.homeDetails["selectedAgreement"] =
+      this.homeDetails["getHistoryResp"]["rows"][
+        selectedAgreement["position"] - 1
+      ]["id"];
+    console.log("onIdClick", this.homeDetails);
+    this.router.navigate([
+      `upload-history-details/${this.homeDetails["selectedAgreement"]}`,
+    ]);
+  }
+
+  createHistory(index: number, element): UserData {
+    console.log("createHistory:", this.historyDetails, index, element);
+    return {
+      position: index + 1,
+      name_of_agreement: element.name_of_agreement,
+      file_name: element.file_name,
+      type_of_agreement: element.type_of_agreement,
+      status: element.status,
+      color: this.getStatusColor(element),
+    };
+  }
+
+  // start getStatusColor
+  getStatusColor(details) {
+    let statusColor = "#000";
+    if (details?.status === "pending") {
+      statusColor = "#E11E38";
+    }
+    if (details?.status === "completed") {
+      statusColor = "#5CE11E";
+    }
+    return statusColor;
+  }
+  // end getStatusColor
 }
+export interface UserData {
+  position: number;
+  name_of_agreement: string;
+  file_name: string;
+  type_of_agreement: string;
+  status: string;
+  color: string;
+}
+
+// todo need to call API on pagination
