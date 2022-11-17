@@ -7,7 +7,6 @@
 >
   Bulk Upload (Contracts)
 </button>
-
 <!-- Modal -->
 <div
   class="modal fade"
@@ -20,7 +19,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="bulkUploadModalLabel">Add .csv & .pdf File(s)</h5>
+        <h5 class="modal-title" id="bulkUploadModalLabel">Add .CSV File</h5>
         <button
           type="button"
           class="close"
@@ -31,28 +30,52 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="row">
+        <div class="row upload-lebel-row">
           <div class="col-md-12">
+            <label for="file-input" class="btn btn-info"
+              >Upload the file by clicking here</label
+            >
             <input
-              id="file-input"
               multiple
               type="file"
+              id="file-input"
+              style="display: none"
               accept=".pdf, .csv"
               (change)="selectFile($event)"
             />
-            <div *ngFor="let obj of uploadDetails.fileNames">
-              {{ obj?.file_name }}
+            <div
+              class="row file-name-row"
+              *ngIf="uploadDetails?.fileNames?.length > 0"
+            >
+              <div class="col">
+                <div
+                  class="file-name"
+                  *ngFor="let obj of uploadDetails.fileNames"
+                >
+                  <span class="pdf-icon mr-2"></span> {{ obj?.file_name }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-          CANCEL
-        </button>
-        <button type="button" class="btn sd-btn-primary" (click)="handleUpload()">
-          ADD
-        </button>
+        <div class="row footer-row">
+          <div class="col-6">
+            <button type="button" class="btn sd-btn-sec" data-dismiss="modal">
+              CANCEL
+            </button>
+          </div>
+          <div class="col-6">
+            <button
+              type="button"
+              class="btn sd-btn-primary add-btn"
+              (click)="handleUpload()"
+            >
+              ADD
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>

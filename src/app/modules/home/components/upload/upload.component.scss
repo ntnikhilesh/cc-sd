@@ -1,0 +1,40 @@
+.modal-dialog{
+    .modal-title{
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .close{
+        font-size: 43px;
+    }
+
+    .upload-lebel-row{
+        padding: 30px;
+        border: dotted;
+        margin: 0px 20px;
+        text-align: center;
+        .btn-info{
+            font-size: 14px;
+            background: #fff;
+            color: #000;
+            border: #fff;
+        }
+    }
+
+    .footer-row{
+        width: 100%;
+        .add-btn{
+            float: right;
+        }
+    }
+
+    .file-name-row{
+        border: 1px solid rgb(0 0 0 / 87%);
+        .file-name{
+            font-size: 10px;
+            text-align: left;
+            padding: 5px;
+            border-bottom: 1px solid #6c757d;
+        }
+    }
+   
+}
