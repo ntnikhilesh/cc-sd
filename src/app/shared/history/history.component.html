@@ -1,22 +1,59 @@
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">#(Total: {{homeDetails?.getHistoryResp?.count}})</th>
-      <th scope="col">File Name</th>
-      <th scope="col">Date of upload</th>
-      <th scope="col">Uploaded by</th>
-      <th scope="col">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr
-      *ngFor="let data of homeDetails?.getHistoryResp?.rows; let index = index"
+<div class="example-container mat-elevation-z8">
+  <mat-table [dataSource]="dataSource" matSort>
+    <!-- ID Column -->
+    <ng-container matColumnDef="position">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Sl no.
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row"> {{ row.position }} </mat-cell>
+    </ng-container>
+
+    <!-- Progress Column -->
+    <ng-container matColumnDef="csv_file_name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        File Name
+      </mat-header-cell>
+      <mat-cell *matCellDef="let data">
+        {{ data?.csv_file_name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="createdAt">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Date of upload
+      </mat-header-cell>
+      <mat-cell *matCellDef="let data"> {{ data?.createdAt | date }} </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="uploaded_by">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Uploaded by
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <span class="user-profile-icon mr-2"></span> {{ row.uploaded_by }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Color Column -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>
+        Status
+      </mat-header-cell>
+      <mat-cell *matCellDef="let data" [style.color]="data.color">
+        {{ data?.status }} | {{ data?.completed_agreements_count }} /
+        {{ data?.completed_agreements_count + data?.pending_agreements_count }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="onIdClick(row)"
     >
-      <th scope="row">{{ index + 1 }}</th>
-      <td (click)="onIdClick(data.id)">{{ data?.csv_file_name }}</td>
-      <td>{{ data?.updatedAt| date }}</td>
-      <td> {{data?.uploaded_by || '--'}}</td>
-      <td>{{ data?.status }} | {{ data?.completed_agreements_count }} / {{ data?.completed_agreements_count + data?.pending_agreements_count }} </td>
-    </tr>
-  </tbody>
-</table>
+    </mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
