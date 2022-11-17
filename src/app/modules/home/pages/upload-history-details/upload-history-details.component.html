@@ -43,7 +43,7 @@
     <div class="col-3">
       <button
         type="button"
-        class="btn btn-primary"
+        class="btn sd-btn-primary"
         (click)="handleSaveSubmit()"
       >
         Save & Submit
@@ -76,25 +76,19 @@
       <td>{{ data?.type_of_agreement }}</td>
       <td>{{ data?.status }}</td>
       <td>
-        <button
-          type="button"
-          class="btn btn-primary"
+        <span
+          class="pencil-edit-button-icon mr-4"
           data-toggle="modal"
           data-target="#editHistoryModal"
           (click)="onEditClick(data)"
-        >
-          Edit
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary ml-1"
+        ></span>
+        <span
+          class="cancel-icon mr-4"
           (click)="onDeleteClick(data)"
-        >
-          Delete
-        </button>
+        ></span>
         <button
           type="button"
-          class="btn btn-primary ml-1"
+          class="btn sd-btn-primary ml-1"
           data-toggle="modal"
           data-target="#replaceFileModal"
           (click)="onReplaceClick(data)"
@@ -196,7 +190,7 @@
         <button
           data-dismiss="modal"
           type="button"
-          class="btn btn-primary"
+          class="btn sd-btn-primary"
           (click)="handleSubmit()"
         >
           SUBMIT
@@ -252,7 +246,7 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           CANCEL
         </button>
-        <button type="button" class="btn btn-primary" (click)="handleReplace()">
+        <button type="button" class="btn sd-btn-primary" (click)="handleReplace()">
           REPLACE
         </button>
       </div>
