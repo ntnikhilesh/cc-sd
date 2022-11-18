@@ -34,11 +34,19 @@ export class HistoryComponent implements OnInit {
   ) {}
   // }
   ngOnInit(): void {
+    this.homeDetails["paginationDetails"] = {
+      pageIndex: 0,
+      length: 0,
+      pageSize: 5,
+      pageSizeOptions: [5, 10, 25, 50, 100],
+    };
     this.loaderService.show();
     this.getHistory().then(
       (res) => {
         if (res) {
           this.loaderService.hide();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
           console.log("getHistory done....", this.homeDetails);
         }
       },
@@ -51,8 +59,11 @@ export class HistoryComponent implements OnInit {
 
   /* start getHistory */
   getHistory(): Promise<any> {
+    this.users = [];
+    console.log("getHistory:", this.homeDetails);
+    const { pageIndex, pageSize } = this.homeDetails["paginationDetails"];
     return new Promise((resolve, reject) => {
-      this.homeService.getHistory().subscribe(
+      this.homeService.getHistory(pageIndex + 1, pageSize).subscribe(
         (getHistoryResp) => {
           console.log("getHistoryResp:", getHistoryResp);
           this.homeDetails["getHistoryResp"] = getHistoryResp;
@@ -70,9 +81,10 @@ export class HistoryComponent implements OnInit {
           }
           // Assign the data to the data source for the table to render
           this.dataSource = new MatTableDataSource(this.users);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          console.log("final users", this.users);
+
+          this.homeDetails["paginationDetails"]["length"] =
+            this.homeDetails["getHistoryResp"].count;
+          console.log("final users", this.users, this.dataSource);
           resolve(true);
         },
         (error) => {
@@ -98,7 +110,11 @@ export class HistoryComponent implements OnInit {
   createHistory(index: number, element): UserData {
     console.log("createHistory:", this.homeDetails, index, element);
     return {
-      position: index + 1,
+      position:
+        this.homeDetails["paginationDetails"]["pageSize"] *
+          this.homeDetails["paginationDetails"]["pageIndex"] +
+        index +
+        1,
       csv_file_name: element.csv_file_name,
       created_at: element.created_at,
       uploaded_by: element.uploaded_by,
@@ -121,6 +137,26 @@ export class HistoryComponent implements OnInit {
     return statusColor;
   }
   // end getStatusColor
+
+  onPaginateChange(data) {
+    console.log("onPaginateChange::", data);
+    this.homeDetails["paginationDetails"]["pageIndex"] = data?.pageIndex;
+    this.homeDetails["paginationDetails"]["pageSize"] = data?.pageSize;
+
+    this.loaderService.show();
+    this.getHistory().then(
+      (res) => {
+        if (res) {
+          this.loaderService.hide();
+          console.log("getHistory done....", this.homeDetails);
+        }
+      },
+      (error) => {
+        this.loaderService.hide();
+        console.log("getHistory error....", error);
+      }
+    );
+  }
 }
 export interface UserData {
   position: number;

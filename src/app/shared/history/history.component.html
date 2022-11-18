@@ -60,7 +60,9 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Date of upload
       </mat-header-cell>
-      <mat-cell *matCellDef="let data"> {{ data?.created_at | date }} </mat-cell>
+      <mat-cell *matCellDef="let data">
+        {{ data?.created_at | date }}
+      </mat-cell>
     </ng-container>
 
     <!-- Color Column -->
@@ -96,5 +98,12 @@
     </mat-row>
   </mat-table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  <mat-paginator
+    [pageIndex]="homeDetails?.paginationDetails?.pageIndex"
+    [length]="homeDetails?.paginationDetails?.length"
+    [pageSize]="homeDetails?.paginationDetails?.pageSize"
+    [pageSizeOptions]="homeDetails?.paginationDetails?.pageSizeOptions"
+    (page)="onPaginateChange($event)"
+  >
+  </mat-paginator>
 </div>

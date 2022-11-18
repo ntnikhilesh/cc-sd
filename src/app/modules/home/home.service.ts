@@ -11,8 +11,8 @@ export class HomeService {
   constructor(private httpclient: HttpClient) {}
 
   // start getHistory
-  getHistory() {
-    const apiUrl = `${baseURL}/history?page=1&size=100`;
+  getHistory(page, size) {
+    const apiUrl = `${baseURL}/history?page=${page}&size=${size}`;
     const headers = new HttpHeaders({
       "Content-Type": "application/json",
       Accept: "application/json",
