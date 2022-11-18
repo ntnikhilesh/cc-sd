@@ -63,12 +63,12 @@
     </ng-container>
 
     <!-- Name Column -->
-    <ng-container matColumnDef="created_at">
+    <ng-container matColumnDef="createdAt">
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Date of upload
       </mat-header-cell>
       <mat-cell *matCellDef="let data">
-        {{ data?.created_at | date }}
+        {{ data?.createdAt | date }}
       </mat-cell>
     </ng-container>
 
