@@ -15,7 +15,7 @@ export class HistoryComponent implements OnInit {
   displayedColumns = [
     "position",
     "csv_file_name",
-    "createdAt",
+    "created_at",
     "uploaded_by",
     "status",
   ];
@@ -100,7 +100,7 @@ export class HistoryComponent implements OnInit {
     return {
       position: index + 1,
       csv_file_name: element.csv_file_name,
-      createdAt: element.createdAt,
+      created_at: element.created_at,
       uploaded_by: element.uploaded_by,
       status: element.status,
       completed_agreements_count: element.completed_agreements_count,
@@ -125,7 +125,7 @@ export class HistoryComponent implements OnInit {
 export interface UserData {
   position: number;
   csv_file_name: string;
-  createdAt: string;
+  created_at: string;
   uploaded_by: string;
   status: string;
   completed_agreements_count: string;

@@ -3,7 +3,7 @@ table {
   }
   
   .sd-tr{
-    height: 80px;
+    padding: 20px 0px;
   }
 
   .sd-th{
@@ -88,3 +88,28 @@ table {
         overflow-y: auto;
     }
 }
+
+
+.mat-column-position{
+    flex: 0 0 10%;
+  }
+
+  .mat-column-name_of_agreement{
+    flex: 0 0 25%;
+  }
+
+  .mat-column-file_name{
+    flex: 0 0 20%;
+  }
+
+  .mat-column-type_of_agreement{
+    flex: 0 0 15%;
+  }
+
+  .mat-column-status{
+    flex: 0 0 10%;
+  }
+
+  .mat-column-action{
+    flex: 0 0 20%;
+  }
