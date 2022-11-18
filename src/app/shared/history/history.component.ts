@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, Inject, LOCALE_ID } from "@angular/core";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { MatSort } from "@angular/material/sort";
 import { Router } from "@angular/router";
 import { HomeService } from "../../modules/home/home.service";
 import { LoaderService } from "../../modules/loader/loader.service";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "app-history",
@@ -30,7 +31,8 @@ export class HistoryComponent implements OnInit {
   constructor(
     private homeService: HomeService,
     private router: Router,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    @Inject(LOCALE_ID) private locale: string
   ) {}
   // }
   ngOnInit(): void {
@@ -40,21 +42,21 @@ export class HistoryComponent implements OnInit {
       pageSize: 5,
       pageSizeOptions: [5, 10, 25, 50, 100],
     };
-    this.loaderService.show();
-    this.getHistory().then(
-      (res) => {
-        if (res) {
-          this.loaderService.hide();
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-          console.log("getHistory done....", this.homeDetails);
-        }
-      },
-      (error) => {
-        this.loaderService.hide();
-        console.log("getHistory error....", error);
-      }
-    );
+    this.homeDetails["filterDetails"] = {
+      options: [
+        {
+          label: "Last 7 days",
+          value: 7,
+        },
+        {
+          label: "Last 1 month",
+          value: 30,
+        },
+      ],
+      selectedOption: 0,
+    };
+
+    this.applyFilter(true, 0);
   }
 
   /* start getHistory */
@@ -63,35 +65,45 @@ export class HistoryComponent implements OnInit {
     console.log("getHistory:", this.homeDetails);
     const { pageIndex, pageSize } = this.homeDetails["paginationDetails"];
     return new Promise((resolve, reject) => {
-      this.homeService.getHistory(pageIndex + 1, pageSize).subscribe(
-        (getHistoryResp) => {
-          console.log("getHistoryResp:", getHistoryResp);
-          this.homeDetails["getHistoryResp"] = getHistoryResp;
-          for (
-            let i = 0;
-            i < this.homeDetails["getHistoryResp"]["rows"].length;
-            i++
-          ) {
-            this.users.push(
-              this.createHistory(
-                i,
-                this.homeDetails["getHistoryResp"]["rows"][i]
-              )
-            );
-          }
-          // Assign the data to the data source for the table to render
-          this.dataSource = new MatTableDataSource(this.users);
+      this.homeService
+        .getHistory(
+          pageIndex + 1,
+          pageSize,
+          this.homeDetails["finalStartDate"],
+          this.homeDetails["finalEndDate"]
+        )
+        .subscribe(
+          (getHistoryResp) => {
+            if (getHistoryResp["count"] === 0) {
+              getHistoryResp = this.homeService.historyDetails;
+            }
+            console.log("getHistoryResp:", getHistoryResp);
+            this.homeDetails["getHistoryResp"] = getHistoryResp;
+            for (
+              let i = 0;
+              i < this.homeDetails["getHistoryResp"]["rows"].length;
+              i++
+            ) {
+              this.users.push(
+                this.createHistory(
+                  i,
+                  this.homeDetails["getHistoryResp"]["rows"][i]
+                )
+              );
+            }
+            // Assign the data to the data source for the table to render
+            this.dataSource = new MatTableDataSource(this.users);
 
-          this.homeDetails["paginationDetails"]["length"] =
-            this.homeDetails["getHistoryResp"].count;
-          console.log("final users", this.users, this.dataSource);
-          resolve(true);
-        },
-        (error) => {
-          console.log("getHistory error...", error);
-          reject();
-        }
-      );
+            this.homeDetails["paginationDetails"]["length"] =
+              this.homeDetails["getHistoryResp"].count;
+            console.log("final users", this.users, this.dataSource);
+            resolve(true);
+          },
+          (error) => {
+            console.log("getHistory error...", error);
+            reject();
+          }
+        );
     });
   }
   /* end getHistory */
@@ -157,6 +169,47 @@ export class HistoryComponent implements OnInit {
       }
     );
   }
+
+  // start applyFilter
+  applyFilter(isFirstLoad, index) {
+    this.homeDetails["selectedFilter"] =
+      this.homeDetails["filterDetails"]["options"][index];
+    console.log("applyFilter:", this.homeDetails);
+    let startDate = new Date();
+    let endDate = new Date();
+    endDate.setDate(
+      endDate.getDate() - this.homeDetails["selectedFilter"]["value"]
+    );
+    this.homeDetails["finalStartDate"] = formatDate(
+      endDate,
+      "yyyy-dd-MM",
+      this.locale
+    );
+    this.homeDetails["finalEndDate"] = formatDate(
+      startDate,
+      "yyyy-dd-MM",
+      this.locale
+    );
+    console.log("final date:", this.homeDetails);
+    this.loaderService.show();
+    this.getHistory().then(
+      (res) => {
+        if (res) {
+          this.loaderService.hide();
+          if (isFirstLoad) {
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+          }
+          console.log("getHistory done....", this.homeDetails);
+        }
+      },
+      (error) => {
+        this.loaderService.hide();
+        console.log("getHistory error....", error);
+      }
+    );
+  }
+  // end applyFilter
 }
 export interface UserData {
   position: number;
@@ -168,5 +221,3 @@ export interface UserData {
   pending_agreements_count: string;
   color: string;
 }
-
-// todo need to call API on pagination

@@ -26,11 +26,18 @@
         aria-haspopup="true"
         aria-expanded="false"
       >
-        Filter
+        {{ homeDetails?.selectedFilter?.label }}
       </button>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" href="#">Last 7 days</a>
-        <a class="dropdown-item" href="#">Last 1 month</a>
+        <span
+          *ngFor="
+            let option of homeDetails?.filterDetails?.options;
+            let i = index
+          "
+          class="dropdown-item"
+          (click)="applyFilter(false, i)"
+          >{{ option?.label }}</span
+        >
       </div>
     </div>
   </div>
