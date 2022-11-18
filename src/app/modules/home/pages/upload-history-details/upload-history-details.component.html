@@ -40,8 +40,8 @@
                 let index = index
               "
             >
-              <div class="col-3">{{ metaDetail?.label }}:</div>
-              <div class="col-9">
+              <div class="col-12">{{ metaDetail?.label }}:</div>
+              <div class="col-12">
                 <input
                   class="edit-input-filed"
                   [(ngModel)]="metaDetail.selected_value"
@@ -66,9 +66,10 @@
                 let index = index
               "
             >
-              <div class="col-6">{{ metaDetail?.label }}:</div>
-              <div class="col-6">
+              <div class="col-12">{{ metaDetail?.label }}:</div>
+              <div class="col-12">
                 <input
+                class="edit-input-filed"
                   [(ngModel)]="metaDetail.selected_value"
                   name="{{ metaDetail.name }}"
                   required
@@ -113,7 +114,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="replaceFileModalLabel">
-          Add .csv & .pdf File(s)
+          Upload File
         </h5>
         <button
           type="button"

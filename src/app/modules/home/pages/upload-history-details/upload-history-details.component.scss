@@ -81,3 +81,10 @@ table {
     font-size: 10px;
     width: 80%;
 }
+
+#editHistoryModal{
+    .modal-body{
+        height: 80vh;
+        overflow-y: auto;
+    }
+}

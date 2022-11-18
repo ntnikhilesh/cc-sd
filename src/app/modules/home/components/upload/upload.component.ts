@@ -89,9 +89,10 @@ export class UploadComponent implements OnInit {
       let payload = this.getFinalAgreementPayload();
       this.homeService.uploadAgreements(payload).subscribe(
         (uploadAgreementsResp) => {
+          console.log("uploadAgreementsResp:", this.uploadDetails);
           this.uploadDetails['uploadAgreementsResp'] = uploadAgreementsResp;
           alert('Upload Successful!')
-          this.router.navigate([`upload-history-details/${uploadAgreementsResp['history']['id']}`])
+          this.router.navigate([`upload-history-details/${uploadAgreementsResp['history'][0]['_id']}`])
           this.loaderService.hide();
           resolve(true);
         },

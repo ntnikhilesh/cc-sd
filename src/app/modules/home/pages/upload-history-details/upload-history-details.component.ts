@@ -442,6 +442,10 @@ export class UploadHistoryDetailsComponent implements OnInit {
     if (details?.status === "completed") {
       statusColor = "#5CE11E";
     }
+    if (details?.status === "file_missing") {
+      statusColor = "#ffc107";
+    }
+    
     return statusColor;
   }
   // end getStatusColor
