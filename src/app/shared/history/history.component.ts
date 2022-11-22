@@ -74,9 +74,6 @@ export class HistoryComponent implements OnInit {
         )
         .subscribe(
           (getHistoryResp) => {
-            if (getHistoryResp["count"] === 0) {
-              getHistoryResp = this.homeService.historyDetails;
-            }
             console.log("getHistoryResp:", getHistoryResp);
             this.homeDetails["getHistoryResp"] = getHistoryResp;
             for (
@@ -182,12 +179,12 @@ export class HistoryComponent implements OnInit {
     );
     this.homeDetails["finalStartDate"] = formatDate(
       endDate,
-      "yyyy-dd-MM",
+      "yyyy-MM-dd",
       this.locale
     );
     this.homeDetails["finalEndDate"] = formatDate(
       startDate,
-      "yyyy-dd-MM",
+      "yyyy-MM-dd",
       this.locale
     );
     console.log("final date:", this.homeDetails);
