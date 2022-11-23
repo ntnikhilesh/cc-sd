@@ -57,14 +57,14 @@
               <div class="col-12">
                 <div
                   class="file-name-col"
-                  *ngFor="let obj of uploadDetails.fileNames"
+                  *ngFor="let obj of uploadDetails.fileNames; let j = index;"
                 >
                   <div class="row sd-file-name-container">
                     <div class="col-9 name">
                       <span class="pdf-icon mr-2"></span> {{ obj?.file_name }}
                     </div>
                     <div class="col-3 action">
-                      <div class="sd-remove-btn">Remove</div>
+                      <div (click)="(onRemoveClick(j))" class="sd-remove-btn">Remove</div>
                     </div>
                   </div>
                 </div>

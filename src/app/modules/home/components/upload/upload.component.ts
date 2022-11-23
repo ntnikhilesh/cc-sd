@@ -125,4 +125,9 @@ export class UploadComponent implements OnInit {
     });
     return payload;
   }
+
+  onRemoveClick(index){
+    console.log(index, 'onRemoveClick:',this.uploadDetails )
+    this.uploadDetails.fileNames.splice(index, 1);
+  }
 }
