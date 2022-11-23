@@ -77,6 +77,9 @@ table {
     }
     .close{
         font-size: 43px;
+        color: #0000006b;
+        font-weight: 100;
+        padding-top: 0;
     }
 
     .upload-lebel-row{
@@ -129,8 +132,13 @@ table {
 }
 
 .edit-input-filed{
-    font-size: 10px;
     width: 80%;
+    background: #dee2e680;
+    border: none;
+    height: 40px;
+    font-size: 14px;
+    padding: 10px;
+    margin-top: 10px;
 }
 
 #editHistoryModal{
@@ -172,4 +180,23 @@ table {
 
 .sd-container{
     height: calc(100vh - 80px);
+}
+
+.footer-row{
+    width: 100%;
+    .add-btn{
+        float: right;
+        width: 90%;
+    }
+    .sd-btn-sec{
+        width: 90%;
+    }
+}
+
+.edit-form{
+   .sd-label{
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: capitalize
+   } 
 }
