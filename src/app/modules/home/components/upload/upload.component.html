@@ -32,6 +32,14 @@
         </button>
       </div>
       <div class="modal-body">
+        <div class="row progress-status-row" *ngIf="uploadDetails?.progress > 0">
+          <div class="col-12 progress-status-col">
+            <div class="progress-status">{{uploadDetails?.progress}} completed!</div>
+          </div>
+          <div class="col-12">
+            <mat-progress-bar mode="determinate" [value]="uploadDetails.progress"></mat-progress-bar>
+          </div>
+        </div>
         <div class="row upload-lebel-row">
           <div class="col-md-12">
             <label for="file-input" class="btn btn-info"
