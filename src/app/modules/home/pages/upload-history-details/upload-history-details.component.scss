@@ -1,13 +1,61 @@
 table {
     width: 100%;
   }
-  
   .sd-tr{
-    padding: 20px 0px;
+    padding: 20px 15px;
+    .mat-cell{
+        text-align: left;
+        letter-spacing: 0px;
+        color: #3D415B;
+        opacity: 1;
+    }
+    .sd-status-container{
+        text-transform: capitalize;
+        .status{
+            margin-right: 15px;
+        }
+        .count{
+            margin-left: 10px;
+        }
+    .sd-pending{
+        display: inline-flex;
+        background: #28a74530;
+        color: #696A72;
+        height: 23px;
+        padding: 2px 10px;
+        width: 90px;
+        border-radius: 17px;
+    }
+    .sd-completed{
+        display: inline-flex;
+        background: #f48c3652;
+        color: #696A72;
+        height: 23px;
+        padding: 2px 10px;
+        width: 90px;
+        border-radius: 17px;
+    }
+    .sd-file-missing{
+        display: inline-flex;
+        background: #F9F7AB;
+        color: #696A72;
+        height: 23px;
+        padding: 2px 10px;
+        width: 100px;
+        border-radius: 17px;
+    }
+    
+    }
+   
   }
 
   .sd-th{
     background: #dee2e680;
+    .mat-header-cell{
+        color: rgb(0 0 0 / 31%);
+        font-weight: normal;
+        font-size: 14px;
+    }
   }
 
   .label-row{
@@ -65,11 +113,14 @@ table {
 
 
 .top-label-row{
-    padding-bottom: 20px;
+    padding-bottom: 5px;
     .top-label{
-    padding: 10px;
-    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
-        
+    background: #fff;
+    font-size: 18px;
+    padding: 15px;
+    span{
+        float: right;
+    } 
     }
     .submit-btn{
         float: right;
@@ -103,13 +154,22 @@ table {
   }
 
   .mat-column-type_of_agreement{
-    flex: 0 0 15%;
+    flex: 0 0 10%;
   }
 
   .mat-column-status{
-    flex: 0 0 10%;
+    flex: 0 0 15%;
   }
 
   .mat-column-action{
     flex: 0 0 20%;
   }
+
+  .footer-action-row{
+    float: right;
+    margin-top: 10px;
+  }
+
+.sd-container{
+    height: calc(100vh - 80px);
+}

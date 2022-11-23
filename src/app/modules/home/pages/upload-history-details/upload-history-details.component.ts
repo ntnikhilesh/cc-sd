@@ -445,10 +445,19 @@ export class UploadHistoryDetailsComponent implements OnInit {
     if (details?.status === "file_missing") {
       statusColor = "#ffc107";
     }
-    
+
     return statusColor;
   }
   // end getStatusColor
+
+  getFinalName(name) {
+    if (name) {
+      name = name.replace(".csv", "");
+      return `( ${name} )`;
+    } else {
+      return "";
+    }
+  }
 }
 export interface UserData {
   position: number;

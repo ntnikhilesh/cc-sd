@@ -1,4 +1,3 @@
-
 <div
   class="modal fade"
   id="editHistoryModal"
@@ -69,7 +68,7 @@
               <div class="col-12">{{ metaDetail?.label }}:</div>
               <div class="col-12">
                 <input
-                class="edit-input-filed"
+                  class="edit-input-filed"
                   [(ngModel)]="metaDetail.selected_value"
                   name="{{ metaDetail.name }}"
                   required
@@ -113,9 +112,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="replaceFileModalLabel">
-          Upload File
-        </h5>
+        <h5 class="modal-title" id="replaceFileModalLabel">Upload File</h5>
         <button
           type="button"
           class="close"
@@ -177,153 +174,171 @@
 </div>
 
 <app-nav></app-nav>
-<div class="row label-row">
-  <div class="col-12">
-    <span class="mr-4" (click)="onBackClick()">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-backspace-fill"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"
-        />
-      </svg>
-    </span>
-    Bulk Upload
-  </div>
-</div>
 
-<div class="container mt-4 mb-2">
-  <div class="row top-label-row">
-    <div class="col-12 mb-4">
-      <div class="top-label">
-        Name of CSV:
-        {{
-          historyDetails?.getHistoryDetailByIdResp?.csv_file_name ||
-            historyDetails?.historyId
-        }}
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="top-label">
-        Total Legacy Contract in CSV:
-        {{ historyDetails?.getHistoryDetailByIdResp?.agreements?.count }}
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="top-label">
-        Number of Qualified Entries:
-        {{
-          historyDetails?.getHistoryDetailByIdResp?.completed_agreements_count
-        }}
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="top-label">
-        Number of Error Entries:
-        {{ historyDetails?.getHistoryDetailByIdResp?.pending_agreements_count }}
-      </div>
-    </div>
-    <div class="col-3">
-      <button
-        type="button"
-        class="btn sd-btn-primary submit-btn"
-        (click)="handleSaveSubmit()"
-      >
-        Save & Submit
-      </button>
+<div class="container sd-container">
+  <div class="row label-row">
+    <div class="col-12">
+      <span class="mr-4" (click)="onBackClick()">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-backspace-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M15.683 3a2 2 0 0 0-2-2h-7.08a2 2 0 0 0-1.519.698L.241 7.35a1 1 0 0 0 0 1.302l4.843 5.65A2 2 0 0 0 6.603 15h7.08a2 2 0 0 0 2-2V3zM5.829 5.854a.5.5 0 1 1 .707-.708l2.147 2.147 2.146-2.147a.5.5 0 1 1 .707.708L9.39 8l2.146 2.146a.5.5 0 0 1-.707.708L8.683 8.707l-2.147 2.147a.5.5 0 0 1-.707-.708L7.976 8 5.829 5.854z"
+          />
+        </svg>
+      </span>
+      Bulk Upload
+      {{
+        getFinalName(historyDetails?.getHistoryDetailByIdResp?.csv_file_name)
+      }}
     </div>
   </div>
-</div>
 
-<div class="example-container mat-elevation-z8">
-  <mat-table [dataSource]="dataSource" matSort>
-    <!-- ID Column -->
-    <ng-container matColumnDef="position">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Sl no.
-      </mat-header-cell>
-      <mat-cell *matCellDef="let row"> {{ row.position }} </mat-cell>
-    </ng-container>
+  <div class="container mt-4 mb-2">
+    <div class="row top-label-row">
+      <div class="col-4">
+        <div class="top-label">
+          Total Legacy Contract in CSV:
+          {{ historyDetails?.getHistoryDetailByIdResp?.agreements?.count }}
+          <span class="pencil-edit-button-icon"></span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="top-label">
+          Number of Qualified Entries:
+          {{
+            historyDetails?.getHistoryDetailByIdResp?.completed_agreements_count
+          }}
+          <span class="pencil-edit-button-icon"></span>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="top-label">
+          Number of Error Entries:
+          {{
+            historyDetails?.getHistoryDetailByIdResp?.pending_agreements_count
+          }}
+          <span class="pencil-edit-button-icon"></span>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <ng-container matColumnDef="name_of_agreement">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Name of Agreement
-      </mat-header-cell>
-      <mat-cell *matCellDef="let data">
-        {{ data?.name_of_agreement }}
-      </mat-cell>
-    </ng-container>
+  <div class="sd-table-container">
+    <mat-table [dataSource]="dataSource" matSort>
+      <!-- ID Column -->
+      <ng-container matColumnDef="position">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Sl no.
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row"> {{ row.position }} </mat-cell>
+      </ng-container>
 
-    <!-- Progress Column -->
-    <ng-container matColumnDef="file_name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        File Name
-      </mat-header-cell>
-      <mat-cell *matCellDef="let data">
-        <span *ngIf="data?.file_name" class="pdf-icon mr-2"></span>
-        {{ data?.file_name }}
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="name_of_agreement">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Name of Agreement
+        </mat-header-cell>
+        <mat-cell *matCellDef="let data">
+          {{ data?.name_of_agreement }}
+        </mat-cell>
+      </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="type_of_agreement">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Type of Agreement
-      </mat-header-cell>
-      <mat-cell *matCellDef="let data">
-        {{ data?.type_of_agreement }}
-      </mat-cell>
-    </ng-container>
+      <!-- Progress Column -->
+      <ng-container matColumnDef="file_name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          File Name
+        </mat-header-cell>
+        <mat-cell *matCellDef="let data">
+          <span *ngIf="data?.file_name" class="pdf-icon mr-2"></span>
+          {{ data?.file_name }}
+        </mat-cell>
+      </ng-container>
 
-    <!-- Color Column -->
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Status
-      </mat-header-cell>
-      <mat-cell *matCellDef="let data" [style.color]="data.color">
+      <!-- Name Column -->
+      <ng-container matColumnDef="type_of_agreement">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Type of Agreement
+        </mat-header-cell>
+        <mat-cell *matCellDef="let data">
+          {{ data?.type_of_agreement }}
+        </mat-cell>
+      </ng-container>
+
+      <!-- Color Column -->
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Status
+        </mat-header-cell>
+        <!-- <mat-cell *matCellDef="let data" [style.color]="data.color">
         {{ data?.status }}
-      </mat-cell>
-    </ng-container>
+      </mat-cell> -->
+        <mat-cell *matCellDef="let data" class="sd-status-container">
+          <div
+            [ngClass]="{
+              'sd-file-missing': data.status === 'file_missing',
+              'sd-pending': data.status === 'pending',
+              'sd-completed': data.status === 'completed'
+            }"
+          >
+            <div class="status">
+              {{ data?.status }}
+            </div>
+          </div>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="action">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>
-        Action
-      </mat-header-cell>
-      <mat-cell *matCellDef="let data">
-        <span
-          class="pencil-edit-button-icon mr-4"
-          data-toggle="modal"
-          data-target="#editHistoryModal"
-          (click)="onEditClick(data.position)"
-        ></span>
-        <span
-          class="cancel-icon mr-4"
-          (click)="onDeleteClick(data.position)"
-        ></span>
+      <ng-container matColumnDef="action">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>
+          Action
+        </mat-header-cell>
+        <mat-cell *matCellDef="let data">
+          <span
+            class="pencil-edit-button-icon mr-4"
+            data-toggle="modal"
+            data-target="#editHistoryModal"
+            (click)="onEditClick(data.position)"
+          ></span>
+          <span
+            class="cancel-icon mr-4"
+            (click)="onDeleteClick(data.position)"
+          ></span>
+          <button
+            type="button"
+            class="btn sd-btn-primary ml-1"
+            data-toggle="modal"
+            data-target="#replaceFileModal"
+            (click)="onReplaceClick(data.position)"
+          >
+            Replace
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row
+        class="sd-th"
+        *matHeaderRowDef="displayedColumns"
+      ></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns" class="sd-tr">
+      </mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+    <div class="row footer-action-row">
+      <div class="col-12">
         <button
           type="button"
-          class="btn sd-btn-primary ml-1"
-          data-toggle="modal"
-          data-target="#replaceFileModal"
-          (click)="onReplaceClick(data.position)"
+          class="btn sd-btn-primary submit-btn"
+          (click)="handleSaveSubmit()"
         >
-          Replace
+          Save & Submit
         </button>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row
-      class="sd-th"
-      *matHeaderRowDef="displayedColumns"
-    ></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns" class="sd-tr">
-    </mat-row>
-  </mat-table>
-
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+    </div>
+  </div>
 </div>
