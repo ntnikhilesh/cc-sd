@@ -17,9 +17,9 @@
     Upload History
   </div>
   <div class="col-6 sd-filter">
-    <div class="dropdown">
+    <div class="dropdown sd-dropdown">
       <button
-        class="btn btn-secondary dropdown-toggle"
+        class="btn btn-secondary dropdown-toggle sd-dropdown-btn"
         type="button"
         id="dropdownMenuButton"
         data-toggle="dropdown"
@@ -42,7 +42,7 @@
     </div>
   </div>
 </div>
-<div class="example-container mat-elevation-z8">
+<div class="example-container">
   <mat-table [dataSource]="dataSource" matSort>
     <!-- ID Column -->
     <ng-container matColumnDef="position">
@@ -87,9 +87,19 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>
         Status
       </mat-header-cell>
-      <mat-cell *matCellDef="let data" [style.color]="data.color">
-        {{ data?.status }} | {{ data?.completed_agreements_count }} /
-        {{ data?.completed_agreements_count + data?.pending_agreements_count }}
+      <mat-cell *matCellDef="let data" class="sd-status-container">
+        <div [ngClass]= "{
+          'sd-pending':data.status === 'pending',
+          'sd-completed':data.status === 'completed'}">
+          <div class="status">
+            {{ data?.status }}
+          </div> |
+          <div class="count">
+             {{ data?.completed_agreements_count }} /
+            {{ data?.completed_agreements_count + data?.pending_agreements_count }}
+          </div>
+        </div>
+       
       </mat-cell>
     </ng-container>
 

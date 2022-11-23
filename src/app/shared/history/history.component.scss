@@ -3,22 +3,68 @@ table {
   }
   
   .sd-tr{
-    padding: 20px 0px;
+    padding: 20px 15px;
+    .sd-status-container{
+        border-radius: 5px;
+        text-transform: capitalize;
+        .status{
+            margin-right: 15px;
+        }
+        .count{
+            margin-left: 10px;
+        }
+    .sd-pending{
+        display: inline-flex;
+        background: #28a74530;
+        color: #696A72;
+        height: 29px;
+        padding: 5px 10px;
+        width: 140px;
+    }
+    .sd-completed{
+        display: inline-flex;
+        background: #f48c3652;
+        color: #696A72;
+        height: 29px;
+        padding: 5px 10px;
+        width: 140px;
+    }
+    }
+   
   }
 
   .sd-th{
     background: #dee2e680;
+    .mat-header-cell{
+        color: rgb(0 0 0 / 31%);
+        font-weight: normal;
+        font-size: 14px;
+    }
   }
 
   .label-row{
-    margin: 15px 15px 15px 0px;
+    margin: 15px 0px;
     font-size: 20px;
   }
 
   .sd-filter{
-    button{
-        float: right;
-    }
+    padding: 0px;
+    .sd-dropdown{
+        .sd-dropdown-btn{
+            background-color: #fff;
+            color: #0000007d;
+            font-size: 14px;
+            font-weight: normal;
+            width: 160px;
+            text-align: left;
+            float: right;
+        }
+        .sd-dropdown-btn::after {
+            float: right;
+            margin-top: 7px;
+            font-size: 30px;
+          }
+      }
     
   }
 
