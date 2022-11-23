@@ -19,7 +19,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="bulkUploadModalLabel">Upload Files</h5>
+        <h5 class="modal-title" id="bulkUploadModalLabel">
+          Upload contracts to the repository
+        </h5>
         <button
           type="button"
           class="close"
@@ -35,6 +37,7 @@
             <label for="file-input" class="btn btn-info"
               >Upload the file by clicking here</label
             >
+            <div class="label-2">Maximum upload limit: 500 files</div>
             <input
               multiple
               type="file"
@@ -43,16 +46,27 @@
               accept=".pdf, .csv"
               (change)="selectFile($event)"
             />
-            <div
-              class="row file-name-row"
-              *ngIf="uploadDetails?.fileNames?.length > 0"
-            >
-              <div class="col">
+          </div>
+        </div>
+        <div
+          class="row file-list-row"
+          *ngIf="uploadDetails?.fileNames?.length > 0"
+        >
+          <div class="col-md-12">
+            <div class="row file-name-row">
+              <div class="col-12">
                 <div
-                  class="file-name"
+                  class="file-name-col"
                   *ngFor="let obj of uploadDetails.fileNames"
                 >
-                  <span class="pdf-icon mr-2"></span> {{ obj?.file_name }}
+                  <div class="row sd-file-name-container">
+                    <div class="col-9 name">
+                      <span class="pdf-icon mr-2"></span> {{ obj?.file_name }}
+                    </div>
+                    <div class="col-3 action">
+                      <div class="sd-remove-btn">Remove</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

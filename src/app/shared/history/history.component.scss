@@ -4,6 +4,12 @@ table {
   
   .sd-tr{
     padding: 20px 15px;
+    .mat-cell{
+        text-align: left;
+        letter-spacing: 0px;
+        color: #3D415B;
+        opacity: 1;
+    }
     .sd-status-container{
         border-radius: 5px;
         text-transform: capitalize;
