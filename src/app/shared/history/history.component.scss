@@ -25,7 +25,7 @@ table {
         color: #696A72;
         height: 29px;
         padding: 5px 10px;
-        width: 140px;
+        width: 150px;
     }
     .sd-completed{
         display: inline-flex;
@@ -33,7 +33,7 @@ table {
         color: #696A72;
         height: 29px;
         padding: 5px 10px;
-        width: 140px;
+        width: 150px;
     }
     }
    
@@ -83,7 +83,7 @@ table {
   }
 
   .mat-column-createdAt{
-    flex: 0 0 25%;
+    flex: 0 0 15%;
   }
 
   .mat-column-uploaded_by{
@@ -91,5 +91,5 @@ table {
   }
 
   .mat-column-status{
-    flex: 0 0 15%;
+    flex: 0 0 25%;
   }
