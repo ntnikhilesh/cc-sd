@@ -458,6 +458,13 @@ export class UploadHistoryDetailsComponent implements OnInit {
       return "";
     }
   }
+
+  onRemoveReplaceItemClick(index){
+    console.log(index, 'onRemoveClick:',this.historyDetails )
+    this.historyDetails.fileNames.splice(index, 1);
+  }
+
+
 }
 export interface UserData {
   position: number;

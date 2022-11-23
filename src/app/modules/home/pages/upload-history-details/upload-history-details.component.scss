@@ -82,18 +82,66 @@ table {
         padding-top: 0;
     }
 
+    // .upload-lebel-row{
+    //     padding: 30px;
+    //     border: dotted;
+    //     margin: 0px 20px;
+    //     text-align: center;
+    //     .btn-info{
+    //         font-size: 14px;
+    //         background: #fff;
+    //         color: #000;
+    //         border: #fff;
+    //     }
+    // }
+
+    .replace-modal-body{
+
     .upload-lebel-row{
         padding: 30px;
-        border: dotted;
+        border: dotted #343a406e;
         margin: 0px 20px;
         text-align: center;
+        background: #dee2e680;
         .btn-info{
             font-size: 14px;
-            background: #fff;
-            color: #000;
-            border: #fff;
+            color: #6c757d;
+            background: #dee2e680;
+            border: none;
+        }
+        .label-2{
+            font-size: 10px;
+            color: #6c757dad;
         }
     }
+
+    .file-list-row{
+        padding: 10px;
+        border: solid #dee2e6;;
+        margin: 20px 20px;
+        max-height: 200px;
+        overflow: scroll;
+        .file-name-row{
+            border: none;
+            .file-name-col{
+                font-size: 12px;
+                text-align: left;
+                padding: 5px;
+              //  border-bottom: 1px solid #dee2e6;
+                .sd-file-name-container{
+                    .action{
+                        .sd-remove-btn{
+                            color: red;
+                            cursor: pointer;
+                        }
+                    }
+                   
+                }
+            }
+           
+        }
+    }
+}
 
     .footer-row{
         width: 100%;
